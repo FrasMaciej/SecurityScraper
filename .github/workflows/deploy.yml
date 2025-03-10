@@ -3,7 +3,7 @@ name: Deploy AWS Lambda
 on:
   push:
     branches:
-      - main
+      - '**'
 
 jobs:
   deploy:
@@ -28,8 +28,14 @@ jobs:
         working-directory: Api/terraform/
 
       - name: Import existing Lambda function (if it exists)
-        run: terraform import aws_lambda_function.my_lambda MyLambdaFunction
+        run: terraform import aws_lambda_function.fetch_from_shodan FetchFromShodan
         working-directory: Api/terraform/
+
+      - name: Deploy Lambda Function
+        run: |
+          aws lambda update-function-configuration \
+            --function-name FetchFromShodan \
+            --environment "Variables={SHODAN_API_KEY=${{ secrets.SHODAN_API_KEY }}}"
 
       - name: Apply Terraform changes
         run: terraform apply -auto-approve
