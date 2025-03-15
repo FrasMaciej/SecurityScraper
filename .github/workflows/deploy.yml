@@ -27,15 +27,20 @@ jobs:
         run: terraform init
         working-directory: Api/terraform/
 
-      - name: Import existing Lambda function (if it exists)
+      - name: Check if Lambda function exists
+        id: check_lambda
+        run: |
+          if aws lambda get-function --function-name FetchFromShodan > /dev/null 2>&1; then
+            echo "FETCH_FROM_SHODAN_LAMBDA_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "FETCH_FROM_SHODAN_LAMBDA_EXISTS=false" >> $GITHUB_ENV
+          fi
+
+      - name: Import fetch_from_shodan Lambda (if it exists)
+        if: env.FETCH_FROM_SHODAN_LAMBDA_EXISTS == 'true'
         run: terraform import aws_lambda_function.fetch_from_shodan FetchFromShodan
         working-directory: Api/terraform/
 
-      - name: Deploy Lambda Function and Parameter store
-        run: |
-          aws lambda update-function-configuration \
-            --function-name FetchFromShodan 
-            
       - name: Apply Terraform changes
         run: terraform apply -auto-approve
         working-directory: Api/terraform/

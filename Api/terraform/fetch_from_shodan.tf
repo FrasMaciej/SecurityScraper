@@ -86,7 +86,7 @@ resource "aws_lambda_function" "fetch_from_shodan" {
   handler         = "fetch_from_shodan.lambda_handler"
   filename        = data.archive_file.fetch_from_shodan_lambda_package.output_path
   role            = length(data.aws_iam_role.existing_role.id) > 0 ? data.aws_iam_role.existing_role.arn : aws_iam_role.lambda_role[0].arn
-  source_code_hash = filebase64sha256(data.archive_file.fetch_from_shodan_lambda_package.output_path)
+  source_code_hash = data.archive_file.fetch_from_shodan_lambda_package.output_base64sha256
   timeout          = 30
   depends_on = [
     data.archive_file.fetch_from_shodan_lambda_package,
