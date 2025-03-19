@@ -25,7 +25,7 @@ jobs:
 
       - name: Initialize Terraform
         run: terraform init
-        working-directory: Api/terraform/
+        working-directory: Terraform/
 
       - name: Check if Lambda function exists
         id: check_lambda
@@ -39,8 +39,8 @@ jobs:
       - name: Import fetch_from_shodan Lambda (if it exists)
         if: env.FETCH_FROM_SHODAN_LAMBDA_EXISTS == 'true'
         run: terraform import aws_lambda_function.fetch_from_shodan FetchFromShodan
-        working-directory: Api/terraform/
+        working-directory: Terraform/
 
       - name: Apply Terraform changes
         run: terraform apply -auto-approve
-        working-directory: Api/terraform/
+        working-directory: Terraform/

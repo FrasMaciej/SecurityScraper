@@ -64,8 +64,8 @@ data "aws_caller_identity" "current" {}
 resource "null_resource" "install_dependencies" {
   provisioner "local-exec" {
     command = <<EOT
-      rm -f ../shodan_integration.zip
-      pip install -r ../shodan_integration/requirements.txt -t ../shodan_integration/
+      rm -f ../Api/shodan_integration.zip
+      pip install -r ../Api/shodan_integration/requirements.txt -t ../Api/shodan_integration/
     EOT
   }
   triggers = {
@@ -75,8 +75,8 @@ resource "null_resource" "install_dependencies" {
 
 data "archive_file" "fetch_from_shodan_lambda_package" {
   type        = "zip"
-  source_dir  = "../shodan_integration/"   
-  output_path = "../shodan_integration.zip"
+  source_dir  = "../Api/shodan_integration/"   
+  output_path = "../Api/shodan_integration/shodan_integration.zip"
   depends_on  = [null_resource.install_dependencies]
 }
 
