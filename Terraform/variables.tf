@@ -3,5 +3,5 @@ variable "region" {
 }
 
 variable "bucket_name" {
-  default = "S3-shodan-data"
+  default = "s3-shodan-data"
 }

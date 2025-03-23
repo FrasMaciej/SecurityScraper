@@ -6,8 +6,8 @@ import requests
 
 BASE_SHODAN_URL = "https://api.shodan.io"
 API_KEY_PARAM_NAME = "/securityscraper/shodan/apikey"
-DEFAULT_SEARCH_QUERY = "port:23"
-DEFAULT_URL_PATH = "/shodan/host/search"
+DEFAULT_SEARCH_QUERY = ""
+DEFAULT_URL_PATH = "/shodan/account"
 S3_BUCKET_NAME = "S3-shodan-data"
 
 
