@@ -13,9 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -23,24 +20,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
       - name: Initialize Terraform
         run: terraform init
         working-directory: Terraform/
 
-      - name: Check if Lambda function exists
-        id: check_lambda
-        run: |
-          if aws lambda get-function --function-name FetchFromShodan > /dev/null 2>&1; then
-            echo "FETCH_FROM_SHODAN_LAMBDA_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "FETCH_FROM_SHODAN_LAMBDA_EXISTS=false" >> $GITHUB_ENV
-          fi
-
-      - name: Import fetch_from_shodan Lambda (if it exists)
-        if: env.FETCH_FROM_SHODAN_LAMBDA_EXISTS == 'true'
-        run: terraform import aws_lambda_function.fetch_from_shodan FetchFromShodan
+      - name: Terraform Format
+        run: terraform fmt -check
         working-directory: Terraform/
 
-      - name: Apply Terraform changes
-        run: terraform apply -auto-approve
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        working-directory: Terraform/
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
         working-directory: Terraform/

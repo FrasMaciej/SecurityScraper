@@ -11,12 +11,7 @@ provider "aws" {
   region = "eu-central-1"
 }
 
-data "aws_iam_role" "existing_role" {
-  name = "lambda_execution_role"
-}
-
 resource "aws_iam_role" "lambda_role" {
-  count = length(data.aws_iam_role.existing_role.id) == 0 ? 1 : 0
   name  = "lambda_execution_role"
 
   assume_role_policy = jsonencode({
@@ -31,13 +26,61 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
+data "aws_caller_identity" "current" {}
+
+resource "aws_iam_policy" "ssm_parameter_access" {
+  name         = "SSMParameterAccessPolicy"
+  description  = "Allows Lambda to read SSM Parameter Store for /securityscraper/shodan/apikey"
+
+  policy       = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = [
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParameterHistory"
+      ]
+      Resource = "arn:aws:ssm:eu-central-1:${data.aws_caller_identity.current.account_id}:parameter/securityscraper/shodan/apikey"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_ssm_policy" {
+  policy_arn = aws_iam_policy.ssm_parameter_access.arn
+  role       = aws_iam_role.lambda_role.name
+}
+
+resource "null_resource" "install_dependencies" {
+  provisioner "local-exec" {
+    command = <<EOT
+      rm -f ../Api/shodan/integration/shodan_integration.zip
+      pip install -r ../Api/shodan_integration/requirements.txt -t ../Api/shodan_integration/
+    EOT
+  }
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+data "archive_file" "fetch_from_shodan_lambda_package" {
+  type        = "zip"
+  source_dir  = "../Api/shodan_integration/"   
+  output_path = "../Api/shodan_integration/shodan_integration.zip"
+  depends_on  = [null_resource.install_dependencies]
+}
+
 resource "aws_lambda_function" "fetch_from_shodan" {
   function_name    = "FetchFromShodan"
-  runtime         = "python3.13"
-  handler         = "fetch_from_shodan.lambda_handler"
-  filename        = "../Api/shodan_integration/shodan_integration.zip"
-  role            = length(data.aws_iam_role.existing_role.id) > 0 ? data.aws_iam_role.existing_role.arn : aws_iam_role.lambda_role[0].arn
-  timeout         = 30
+  runtime          = "python3.13"
+  handler          = "fetch_from_shodan.lambda_handler"
+  filename         = data.archive_file.fetch_from_shodan_lambda_package.output_path
+  role             = aws_iam_role.lambda_role.arn
+  source_code_hash = data.archive_file.fetch_from_shodan_lambda_package.output_base64sha256
+  timeout          = 30
+  depends_on = [
+    data.archive_file.fetch_from_shodan_lambda_package,
+  ]
 }
 
 resource "aws_iam_policy" "s3_write_access" {
@@ -53,13 +96,14 @@ resource "aws_iam_policy" "s3_write_access" {
           "s3:PutObject",
           "s3:PutObjectAcl"
         ]
-        Resource = "arn:aws:s3:::S3-shodan-data/*"
+        Resource = "arn:aws:s3:::s3-shodan-data/*"
       }
     ]
   })
 }
 
-resource "aws_iam_role_policy_attachment" "attach_s3_policy" {
-  policy_arn = aws_iam_policy.s3_write_access.arn
-  role       = length(data.aws_iam_role.existing_role.id) > 0 ? data.aws_iam_role.existing_role.name : aws_iam_role.lambda_role[0].name
+resource "aws_iam_policy_attachment" "lambda_logs" {
+  name       = "lambda_logs"
+  roles      = [aws_iam_role.lambda_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }

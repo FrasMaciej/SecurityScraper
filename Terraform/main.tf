@@ -8,6 +8,6 @@ module "s3" {
 }
 
 module "lambda" {
-  source        = "./modules/lambda"
-  bucket_name   = var.bucket_name
+  source      = "./modules/lambda"
+  bucket_name = var.bucket_name
 }
