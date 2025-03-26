@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 import boto3
 import requests
@@ -7,8 +7,8 @@ import requests
 BASE_SHODAN_URL = "https://api.shodan.io"
 API_KEY_PARAM_NAME = "/securityscraper/shodan/apikey"
 DEFAULT_SEARCH_QUERY = ""
-DEFAULT_URL_PATH = "/shodan/account"
-S3_BUCKET_NAME = "S3-shodan-data"
+DEFAULT_URL_PATH = "/api-info"
+S3_BUCKET_NAME = "s3-shodan-data"
 
 
 def lambda_handler(event, context):
@@ -39,7 +39,7 @@ def lambda_handler(event, context):
 
     shodan_data = fetch_shodan_data(search_query, url_path, shodan_api_key)
 
-    timestamp = datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     s3_key = f"shodan_results/{timestamp}.json"
     try:
         s3.put_object(

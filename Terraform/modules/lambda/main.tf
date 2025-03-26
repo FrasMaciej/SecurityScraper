@@ -102,6 +102,11 @@ resource "aws_iam_policy" "s3_write_access" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "attach_s3_policy" {
+  policy_arn = aws_iam_policy.s3_write_access.arn
+  role       = aws_iam_role.lambda_role.name
+}
+
 resource "aws_iam_policy_attachment" "lambda_logs" {
   name       = "lambda_logs"
   roles      = [aws_iam_role.lambda_role.name]
