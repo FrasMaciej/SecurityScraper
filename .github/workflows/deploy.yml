@@ -3,10 +3,10 @@ name: Deploy AWS Lambda and S3
 on:
   push:
     branches:
-      - '**'
+      - "**"
 
 permissions:
-  id-token: write  
+  id-token: write
 
 jobs:
   deploy:
@@ -15,6 +15,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: FrontEnd/
+
+      - name: Build React app
+        run: pnpm build
+        working-directory: FrontEnd/
+
+      - name: Create Lambda deployment package
+        run: |
+          cd .output/server
+          zip -r ../payload.zip .
+        working-directory: FrontEnd/
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3

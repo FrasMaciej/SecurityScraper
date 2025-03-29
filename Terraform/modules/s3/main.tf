@@ -3,9 +3,9 @@ resource "aws_s3_bucket" "my_bucket" {
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
-    bucket = aws_s3_bucket.my_bucket.id
+  bucket = aws_s3_bucket.my_bucket.id
 
-    policy = <<POLICY
+  policy = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [

@@ -1,4 +1,4 @@
-resource "aws_ssm_parameter" "shodan_apikey" {  
+resource "aws_ssm_parameter" "shodan_apikey" {
   name  = "/securityscraper/shodan/apikey"
   type  = "SecureString"
   value = "value_to_set"
@@ -8,6 +8,6 @@ resource "aws_ssm_parameter" "shodan_apikey" {
   }
 
   lifecycle {
-    ignore_changes  = [value]
+    ignore_changes = [value]
   }
 }

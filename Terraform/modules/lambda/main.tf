@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name  = "lambda_execution_role"
+  name = "lambda_execution_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -29,14 +29,14 @@ resource "aws_iam_role" "lambda_role" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_iam_policy" "ssm_parameter_access" {
-  name         = "SSMParameterAccessPolicy"
-  description  = "Allows Lambda to read SSM Parameter Store for /securityscraper/shodan/apikey"
+  name        = "SSMParameterAccessPolicy"
+  description = "Allows Lambda to read SSM Parameter Store for /securityscraper/shodan/apikey"
 
-  policy       = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect   = "Allow"
-      Action   = [
+      Effect = "Allow"
+      Action = [
         "ssm:GetParameter",
         "ssm:GetParameters",
         "ssm:GetParameterHistory"
@@ -65,7 +65,7 @@ resource "null_resource" "install_dependencies" {
 
 data "archive_file" "fetch_from_shodan_lambda_package" {
   type        = "zip"
-  source_dir  = "../Api/shodan_integration/"   
+  source_dir  = "../Api/shodan_integration/"
   output_path = "../Api/shodan_integration/shodan_integration.zip"
   depends_on  = [null_resource.install_dependencies]
 }
@@ -100,6 +100,11 @@ resource "aws_iam_policy" "s3_write_access" {
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_s3_policy" {
+  policy_arn = aws_iam_policy.s3_write_access.arn
+  role       = aws_iam_role.lambda_role.name
 }
 
 resource "aws_iam_policy_attachment" "lambda_logs" {
