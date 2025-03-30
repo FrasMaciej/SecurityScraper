@@ -1,18 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Space, DatePicker } from "antd";
-
+import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
-    <div>
-      Hello
-      <Space>
-        <DatePicker />
-        <Button type="primary">Primary Button</Button>
-      </Space>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <span
+        className="text-4xl font-bold
+      "
+      >
+        Hello
+      </span>
+      <Button>Primary Button</Button>
+      <Link to="/dashboard">Dashboard</Link>
     </div>
   );
 }
