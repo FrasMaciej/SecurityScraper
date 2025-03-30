@@ -15,6 +15,5 @@ module "lambda" {
 module "frontend" {
   source = "./modules/front"
 
-  function_name           = "security-scraper-frontend"
-  lambda_payload_filename = "../FrontEnd/payload.zip"
+  function_name = "security-scraper-frontend"
 }

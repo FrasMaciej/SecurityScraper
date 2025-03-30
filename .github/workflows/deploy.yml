@@ -34,12 +34,6 @@ jobs:
         run: pnpm build
         working-directory: FrontEnd/
 
-      - name: Create Lambda deployment package
-        run: |
-          cd .output/server
-          zip -r ../payload.zip .
-        working-directory: FrontEnd/
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
