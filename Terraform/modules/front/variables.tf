@@ -3,11 +3,6 @@ variable "function_name" {
   type        = string
 }
 
-variable "lambda_payload_filename" {
-  description = "Path to the Lambda function deployment package"
-  type        = string
-}
-
 variable "environment_variables" {
   description = "Environment variables for the Lambda function"
   type        = map(string)
