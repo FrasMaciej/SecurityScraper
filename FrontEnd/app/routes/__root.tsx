@@ -7,6 +7,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import css from "@/styles/index.css?url";
+import Layout from "@/layout/layout";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -30,12 +31,15 @@ export const Route = createRootRoute({
     ],
   }),
   component: RootComponent,
+  notFoundComponent: () => <div>Not Found</div>,
 });
 
 function RootComponent() {
   return (
     <RootDocument>
-      <Outlet />
+      <Layout>
+        <Outlet />
+      </Layout>
     </RootDocument>
   );
 }

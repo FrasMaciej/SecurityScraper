@@ -17,6 +17,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Link } from "@tanstack/react-router";
 
 const data = {
   user: {
@@ -27,17 +28,17 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "dashboard",
+      url: "/dashboard",
       icon: IconDashboard,
     },
     {
       title: "Database",
-      url: "database",
+      url: "/database",
       icon: IconListDetails,
     },
     {
       title: "Billing",
-      url: "billing",
+      url: "/billing",
       icon: IconCoin,
     },
   ],
@@ -53,12 +54,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <Link to="/">
                 <IconShieldLock className="!size-5" />
                 <span className="text-base font-semibold">
                   Security Scraper
                 </span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

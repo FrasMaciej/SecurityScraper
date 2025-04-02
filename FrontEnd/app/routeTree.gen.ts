@@ -11,9 +11,30 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as DatabaseImport } from './routes/database'
+import { Route as DashboardImport } from './routes/dashboard'
+import { Route as BillingImport } from './routes/billing'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const DatabaseRoute = DatabaseImport.update({
+  id: '/database',
+  path: '/database',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardRoute = DashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BillingRoute = BillingImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,6 +53,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/billing': {
+      id: '/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof BillingImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/database': {
+      id: '/database'
+      path: '/database'
+      fullPath: '/database'
+      preLoaderRoute: typeof DatabaseImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +81,47 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/billing': typeof BillingRoute
+  '/dashboard': typeof DashboardRoute
+  '/database': typeof DatabaseRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/billing': typeof BillingRoute
+  '/dashboard': typeof DashboardRoute
+  '/database': typeof DatabaseRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/billing': typeof BillingRoute
+  '/dashboard': typeof DashboardRoute
+  '/database': typeof DatabaseRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/billing' | '/dashboard' | '/database'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/billing' | '/dashboard' | '/database'
+  id: '__root__' | '/' | '/billing' | '/dashboard' | '/database'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BillingRoute: typeof BillingRoute
+  DashboardRoute: typeof DashboardRoute
+  DatabaseRoute: typeof DatabaseRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BillingRoute: BillingRoute,
+  DashboardRoute: DashboardRoute,
+  DatabaseRoute: DatabaseRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +134,23 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/billing",
+        "/dashboard",
+        "/database"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/billing": {
+      "filePath": "billing.tsx"
+    },
+    "/dashboard": {
+      "filePath": "dashboard.tsx"
+    },
+    "/database": {
+      "filePath": "database.tsx"
     }
   }
 }
