@@ -8,7 +8,7 @@ BASE_SHODAN_URL = "https://api.shodan.io"
 API_KEY_PARAM_NAME = "/securityscraper/shodan/apikey"
 DEFAULT_SEARCH_QUERY = ""
 DEFAULT_URL_PATH = "/api-info"
-S3_BUCKET_NAME = "s3-shodan-data"
+S3_BUCKET_NAME = "collector-reports-storage-s3"
 
 
 def lambda_handler(event, context):

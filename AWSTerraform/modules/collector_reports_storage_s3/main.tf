@@ -1,9 +1,9 @@
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = var.bucket_name
+resource "aws_s3_bucket" "collector_reports_storage" {
+  bucket = var.collector_reports_storage_bucket_name
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = aws_s3_bucket.my_bucket.id
+  bucket = aws_s3_bucket.collector_reports_storage.id
 
   policy = <<POLICY
 {
@@ -14,8 +14,8 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
             "Principal": "*",
             "Action": "s3:*",
             "Resource": [
-                "arn:aws:s3:::${var.bucket_name}",
-                "arn:aws:s3:::${var.bucket_name}/*"
+                "arn:aws:s3:::${var.collector_reports_storage_bucket_name}",
+                "arn:aws:s3:::${var.collector_reports_storage_bucket_name}/*"
             ],
             "Condition": {
                 "Bool": {
@@ -29,14 +29,14 @@ POLICY
 }
 
 resource "aws_s3_bucket_versioning" "versioning_example" {
-  bucket = aws_s3_bucket.my_bucket.id
+  bucket = aws_s3_bucket.collector_reports_storage.id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
-  bucket = aws_s3_bucket.my_bucket.id
+  bucket = aws_s3_bucket.collector_reports_storage.id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -46,7 +46,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
 }
 
 resource "aws_s3_bucket_public_access_block" "block_public_access" {
-  bucket = aws_s3_bucket.my_bucket.id
+  bucket = aws_s3_bucket.collector_reports_storage.id
 
   block_public_acls       = true
   block_public_policy     = true

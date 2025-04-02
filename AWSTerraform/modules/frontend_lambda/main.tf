@@ -4,9 +4,9 @@ data "archive_file" "lambda_zip" {
   output_path = "${path.module}/lambda_payload.zip"
 }
 
-resource "aws_lambda_function" "frontend" {
+resource "aws_lambda_function" "frontend_lambda" {
   filename         = data.archive_file.lambda_zip.output_path
-  function_name    = var.function_name
+  function_name    = var.frontend_lambda_name
   role            = aws_iam_role.lambda_role.arn
   handler         = "index.handler"
   runtime         = "nodejs18.x"
@@ -21,7 +21,7 @@ resource "aws_lambda_function" "frontend" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "${var.function_name}-role"
+  name = "${var.frontend_lambda_name}-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -43,7 +43,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
 }
 
 resource "aws_iam_role_policy" "lambda_public_access" {
-  name = "${var.function_name}-public-access"
+  name = "${var.frontend_lambda_name}-public-access"
   role = aws_iam_role.lambda_role.id
 
   policy = jsonencode({
@@ -55,19 +55,19 @@ resource "aws_iam_role_policy" "lambda_public_access" {
           "lambda:InvokeFunction",
           "lambda:InvokeAsync"
         ]
-        Resource = aws_lambda_function.frontend.arn
+        Resource = aws_lambda_function.frontend_lambda.arn
       }
     ]
   })
 }
 
 resource "aws_cloudwatch_log_group" "lambda_logs" {
-  name              = "/aws/lambda/${var.function_name}"
+  name              = "/aws/lambda/${var.frontend_lambda_name}"
   retention_in_days = 14
 }
 
-resource "aws_lambda_function_url" "frontend" {
-  function_name      = aws_lambda_function.frontend.function_name
+resource "aws_lambda_function_url" "frontend_lambda" {
+  function_name      = aws_lambda_function.frontend_lambda.function_name
   authorization_type = "NONE"
 
   cors {

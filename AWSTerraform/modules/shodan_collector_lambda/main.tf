@@ -41,8 +41,8 @@ resource "aws_iam_role_policy_attachment" "attach_ssm_policy" {
 resource "null_resource" "install_dependencies" {
   provisioner "local-exec" {
     command = <<EOT
-      rm -f ../Api/shodan/integration/shodan_integration.zip
-      pip install -r ../Api/shodan_integration/requirements.txt -t ../Api/shodan_integration/
+      rm -f ../Api/shodan_collector_lambda/shodan_collector_lambda.zip
+      pip install -r ../Api/shodan_collector_lambda/requirements.txt -t ../Api/shodan_collector_lambda/
     EOT
   }
   triggers = {
@@ -50,23 +50,23 @@ resource "null_resource" "install_dependencies" {
   }
 }
 
-data "archive_file" "fetch_from_shodan_lambda_package" {
+data "archive_file" "shodan_collector_lambda_package" {
   type        = "zip"
-  source_dir  = "../Api/shodan_integration/"
-  output_path = "../Api/shodan_integration/shodan_integration.zip"
+  source_dir  = "../Api/shodan_collector_lambda/"
+  output_path = "../Api/shodan_collector_lambda/shodan_collector_lambda.zip"
   depends_on  = [null_resource.install_dependencies]
 }
 
-resource "aws_lambda_function" "fetch_from_shodan" {
-  function_name    = "FetchFromShodan"
+resource "aws_lambda_function" "shodan_collector_lambda" {
+  function_name    = "shodan_collector_lambda"
   runtime          = "python3.13"
-  handler          = "fetch_from_shodan.lambda_handler"
-  filename         = data.archive_file.fetch_from_shodan_lambda_package.output_path
+  handler          = "shodan_collector_lambda.lambda_handler"
+  filename         = data.archive_file.shodan_collector_lambda_package.output_path
   role             = aws_iam_role.lambda_role.arn
-  source_code_hash = data.archive_file.fetch_from_shodan_lambda_package.output_base64sha256
+  source_code_hash = data.archive_file.shodan_collector_lambda_package.output_base64sha256
   timeout          = 30
   depends_on = [
-    data.archive_file.fetch_from_shodan_lambda_package,
+    data.archive_file.shodan_collector_lambda_package,
   ]
 }
 
@@ -83,7 +83,7 @@ resource "aws_iam_policy" "s3_write_access" {
           "s3:PutObject",
           "s3:PutObjectAcl"
         ]
-        Resource = "arn:aws:s3:::s3-shodan-data/*"
+        Resource = "arn:aws:s3:::collector-reports-storage-s3/*"
       }
     ]
   })
