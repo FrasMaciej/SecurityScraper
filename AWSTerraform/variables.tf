@@ -3,5 +3,5 @@ variable "region" {
 }
 
 variable "collector_reports_storage_bucket_name" {
-  default = "collector_reports_storage_s3"
+  default = "collector-reports-storage-s3"
 }
