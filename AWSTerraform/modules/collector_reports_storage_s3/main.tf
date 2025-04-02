@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = var.bucket_name
+  bucket = var.collector_reports_storage_bucket_name
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
@@ -14,8 +14,8 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
             "Principal": "*",
             "Action": "s3:*",
             "Resource": [
-                "arn:aws:s3:::${var.bucket_name}",
-                "arn:aws:s3:::${var.bucket_name}/*"
+                "arn:aws:s3:::${var.collector_reports_storage_bucket_name}",
+                "arn:aws:s3:::${var.collector_reports_storage_bucket_name}/*"
             ],
             "Condition": {
                 "Bool": {
