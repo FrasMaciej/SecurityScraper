@@ -13,6 +13,6 @@ module "shodan_collector_lambda" {
 }
 
 module "frontend_lambda" {
-  source = "./modules/frontend_lambda"
+  source        = "./modules/frontend_lambda"
   function_name = "security-scraper-frontend"
 }
