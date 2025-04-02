@@ -83,7 +83,7 @@ resource "aws_iam_policy" "s3_write_access" {
           "s3:PutObject",
           "s3:PutObjectAcl"
         ]
-        Resource = "arn:aws:s3:::s3-shodan-data/*"
+        Resource = "arn:aws:s3:::collector-reports-storage-s3/*"
       }
     ]
   })
