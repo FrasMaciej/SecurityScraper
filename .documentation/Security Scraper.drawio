@@ -1,0 +1,87 @@
+<mxfile host="65bd71144e">
+    <diagram name="Page-1" id="VWOrnmDIoGaolORYmo0e">
+        <mxGraphModel dx="890" dy="669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-1" value="Security Scraper" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=30;fontStyle=1;labelBackgroundColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="36.5" y="26.5" width="250" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-2" value="Simple Security Scraper to scrape sub-secure services shown in Shodan" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=16;labelBackgroundColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="36.5" y="76.5" width="540" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-3" value="" style="line;strokeWidth=2;html=1;fontSize=14;labelBackgroundColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="32.5" y="101.5" width="767.5" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-4" value="Actors" style="swimlane;fontSize=14;align=center;swimlaneFillColor=#f4f4f4;fillColor=#f4f4f4;startSize=33;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="125" width="210" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-7" value="Channels" style="swimlane;fontSize=14;align=center;swimlaneFillColor=#f4f4f4;fillColor=#f4f4f4;startSize=33;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="180" width="210" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-17" value="Shodan" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#277116;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.external_sdk;labelBackgroundColor=none;" parent="6ll2fqnpo7P6Tv_DAx_q-7" vertex="1">
+                    <mxGeometry x="71" y="71" width="68" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-13" value="AWS Cloud" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=0;labelBackgroundColor=none;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;" parent="1" vertex="1">
+                    <mxGeometry x="263" y="125" width="537" height="355" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-50" value="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007CBD;strokeColor=none;fontColor=#FFFFFF;fontStyle=1;fontSize=22;labelBackgroundColor=none;" parent="6ll2fqnpo7P6Tv_DAx_q-13" vertex="1">
+                    <mxGeometry x="135" y="155" width="40" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-54" value="2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007CBD;strokeColor=none;fontColor=#FFFFFF;fontStyle=1;fontSize=22;labelBackgroundColor=none;" parent="6ll2fqnpo7P6Tv_DAx_q-13" vertex="1">
+                    <mxGeometry x="475" y="155" width="40" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="6ll2fqnpo7P6Tv_DAx_q-13" source="6ll2fqnpo7P6Tv_DAx_q-31" target="6ll2fqnpo7P6Tv_DAx_q-23" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="96" y="74"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=none;html=1;" parent="6ll2fqnpo7P6Tv_DAx_q-13" source="6ll2fqnpo7P6Tv_DAx_q-31" target="4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-31" value="shodan_collector_lambda" style="sketch=0;outlineConnect=0;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.lambda_function;" parent="6ll2fqnpo7P6Tv_DAx_q-13" vertex="1">
+                    <mxGeometry x="57" y="196" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-23" value="/securityscraper/shodan/apikey" style="sketch=0;outlineConnect=0;gradientColor=none;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.parameter_store;" parent="6ll2fqnpo7P6Tv_DAx_q-13" vertex="1">
+                    <mxGeometry x="231" y="25" width="75" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="security-scraper-frontend" style="sketch=0;outlineConnect=0;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.lambda_function;" parent="6ll2fqnpo7P6Tv_DAx_q-13" vertex="1">
+                    <mxGeometry x="397" y="196" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=none;html=1;" parent="6ll2fqnpo7P6Tv_DAx_q-13" source="4" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="collector-reports-storage-s3" id="4">
+                    <mxCell style="sketch=0;outlineConnect=0;gradientColor=none;fillColor=#7AA116;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.bucket;horizontal=1;" parent="6ll2fqnpo7P6Tv_DAx_q-13" vertex="1">
+                        <mxGeometry x="230" y="196" width="76" height="79.04" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-18" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAEDED;fontSize=22;fontColor=#FFFFFF;strokeColor=none;labelBackgroundColor=none;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+                    <mxGeometry x="830" y="20" width="539" height="213.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-41" value="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007CBD;strokeColor=none;fontColor=#FFFFFF;fontStyle=1;fontSize=22;labelBackgroundColor=none;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+                    <mxGeometry x="848.5" y="32.5" width="40" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-42" value="2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007CBD;strokeColor=none;fontColor=#FFFFFF;fontStyle=1;fontSize=22;labelBackgroundColor=none;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+                    <mxGeometry x="849" y="105" width="40" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-52" value="&lt;span&gt;Scraper wykonuje zapytania do API Shodan&#39;a w celu znalezienia serwisów dostepnych publicznie. W zapytaniu podawane są słowa kluczowe, które są wyszukiwane w Shodan&#39;ie&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="32.5" width="449" height="61" as="geometry"/>
+                </mxCell>
+                <mxCell id="6ll2fqnpo7P6Tv_DAx_q-53" value="&lt;span&gt;Panel kontrolny w który administratorzy mogą ręcznie wywoływać działanie Scraper&#39;a, dodatkowo nie-administratorzy mogą przeglądać wyniki skanowania&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="105" width="449" height="61" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="6ll2fqnpo7P6Tv_DAx_q-31" target="6ll2fqnpo7P6Tv_DAx_q-17" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="280" y="360"/>
+                            <mxPoint x="280" y="290"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

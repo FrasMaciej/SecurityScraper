@@ -16,3 +16,8 @@ module "frontend_lambda" {
   source               = "./modules/frontend_lambda"
   frontend_lambda_name = "security-scraper-frontend"
 }
+
+module "cognito_user_pool_for_frontend" {
+  source    = "./modules/cognito_user_pool_for_frontend"
+  pool_name = "frontend_user_pool"
+}
