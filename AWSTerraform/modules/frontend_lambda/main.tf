@@ -17,8 +17,11 @@ resource "aws_lambda_function" "frontend_lambda" {
 
   environment {
     variables = {
-      VITE_SHODAN_LAMBDA_COLLECTOR_URL = var.shodan_collector_lambda_url
-    }
+        description = "Environment variables for the Lambda function for fetching data from shodan API"
+        type        = map(string)
+        default     = {      VITE_SHODAN_LAMBDA_COLLECTOR_URL = var.shodan_collector_lambda_url
+      }
+    } 
   }
 }
 
