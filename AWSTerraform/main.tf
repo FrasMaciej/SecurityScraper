@@ -1,5 +1,5 @@
 module "parameter_store" {
-  source = "./modules/parameter_store"
+  source                      = "./modules/parameter_store"
   shodan_collector_lambda_url = module.shodan_collector_lambda.shodan_collector_lambda_url
 }
 
