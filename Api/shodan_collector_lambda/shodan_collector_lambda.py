@@ -57,7 +57,7 @@ def lambda_handler(event, context):
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({"message": "Data saved to S3", "s3_key": s3_key}),
+        "body": json.dumps(shodan_data, indent=4),
     }
 
 

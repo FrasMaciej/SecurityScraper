@@ -99,3 +99,8 @@ resource "aws_iam_policy_attachment" "lambda_logs" {
   roles      = [aws_iam_role.lambda_role.name]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+resource "aws_lambda_function_url" "shodan_collector_lambda_url" {
+  function_name      = aws_lambda_function.shodan_collector_lambda.function_name
+  authorization_type = "NONE"
+}
