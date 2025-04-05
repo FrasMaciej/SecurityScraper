@@ -56,7 +56,13 @@ def lambda_handler(event, context):
 
     return {
         "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
+        "headers": {
+            "Content-Type": "application/json",
+            # Allow all domains (or specify your domain)
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type",  # Allow the Content-Type header
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",  # Allow necessary HTTP methods
+        },
         "body": json.dumps(shodan_data, indent=4),
     }
 

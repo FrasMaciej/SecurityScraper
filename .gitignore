@@ -14,6 +14,7 @@ terraform.rc
 *.swp
 *.swo
 *~
+.env
 
 # OS generated files
 .DS_Store

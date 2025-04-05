@@ -8,3 +8,7 @@ variable "environment_variables" {
   type        = map(string)
   default     = {}
 } 
+
+variable "shodan_collector_lambda_url" {
+  type = string
+}

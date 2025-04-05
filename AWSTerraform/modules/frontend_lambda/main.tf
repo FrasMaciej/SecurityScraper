@@ -77,4 +77,10 @@ resource "aws_lambda_function_url" "frontend_lambda" {
     allow_origins     = ["*"]
     max_age          = 86400
   }
+
+  environment {
+    variables = {
+      VITE_SHODAN_LAMBDA_COLLECTOR_URL = var.shodan_collector_lambda_url
+    }
+  }
 } 
