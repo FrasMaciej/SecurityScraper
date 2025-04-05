@@ -16,7 +16,9 @@ resource "aws_lambda_function" "frontend_lambda" {
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 
   environment {
-    variables = var.environment_variables
+    variables = {
+      VITE_SHODAN_LAMBDA_COLLECTOR_URL = var.shodan_collector_lambda_url
+    }
   }
 }
 
