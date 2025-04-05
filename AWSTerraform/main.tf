@@ -14,7 +14,7 @@ module "shodan_collector_lambda" {
 }
 
 module "frontend_lambda" {
-  source               = "./modules/frontend_lambda"
-  frontend_lambda_name = "security-scraper-frontend"
+  source                      = "./modules/frontend_lambda"
+  frontend_lambda_name        = "security-scraper-frontend"
   shodan_collector_lambda_url = module.shodan_collector_lambda.shodan_collector_lambda_url
 }
