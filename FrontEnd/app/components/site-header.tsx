@@ -22,6 +22,16 @@ export function SiteHeader() {
               GitHub
             </a>
           </Button>
+          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
+            <a
+              href="https://developer.shodan.io/api"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="dark:text-foreground"
+            >
+              Shodan API
+            </a>
+          </Button>
         </div>
       </div>
     </header>
