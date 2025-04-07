@@ -103,6 +103,13 @@ resource "aws_iam_policy_attachment" "lambda_logs" {
 resource "aws_apigatewayv2_api" "shodan_collector_api" {
   name          = "shodan-collector-api"
   protocol_type = "HTTP"
+
+  cors_configuration {
+    allow_origins = ["*"]  // You might want to restrict this to your frontend domain
+    allow_methods = ["POST", "OPTIONS"]
+    allow_headers = ["*"]
+    max_age      = 300
+  }
 }
 
 resource "aws_apigatewayv2_stage" "stage" {
@@ -124,6 +131,12 @@ resource "aws_apigatewayv2_integration" "lambda_integration" {
 resource "aws_apigatewayv2_route" "route" {
   api_id    = aws_apigatewayv2_api.shodan_collector_api.id
   route_key = "POST /collect"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "options_route" {
+  api_id    = aws_apigatewayv2_api.shodan_collector_api.id
+  route_key = "OPTIONS /collect"
   target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
 
