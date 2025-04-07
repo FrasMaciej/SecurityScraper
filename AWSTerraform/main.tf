@@ -1,5 +1,5 @@
 module "parameter_store" {
-  source                      = "./modules/parameter_store"
+  source = "./modules/parameter_store"
 }
 
 module "collector_reports_storage_s3" {
