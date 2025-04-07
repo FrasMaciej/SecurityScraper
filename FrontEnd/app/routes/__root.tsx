@@ -32,6 +32,10 @@ export const Route = createRootRoute({
   }),
   component: RootComponent,
   notFoundComponent: () => <div>Not Found</div>,
+  loader: () => {
+    const data = process.env.SECURITY_SCRAPER_API_GATEWAY_URL ?? "";
+    return data;
+  },
 });
 
 function RootComponent() {

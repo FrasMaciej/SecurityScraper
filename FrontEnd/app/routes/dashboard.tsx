@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { createFileRoute } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  getRouteApi,
+  useLoaderData,
+} from "@tanstack/react-router";
 import { callLambdaFunction } from "@/api/collector-api";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
@@ -11,6 +15,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function RouteComponent() {
+  const url = useLoaderData({ from: "__root__" });
   const [jsonData, setJsonData] = useState({
     "You will see the response here": "after you click the button",
   });
@@ -19,7 +24,7 @@ function RouteComponent() {
   async function getDataFromShodanAPI() {
     setSendRequestButtonActive(false);
     try {
-      const json = await callLambdaFunction();
+      const json = await callLambdaFunction(url);
       setJsonData(json);
     } catch (error) {
       console.error("Error calling Lambda function:", error);

@@ -1,15 +1,12 @@
-// const lambdaUrl = import.meta.env.VITE_SHODAN_LAMBDA_COLLECTOR_URL;
-const lambdaUrl = 'https://v5mxjroe5nxlgxrykpdui3poum0ufeix.lambda-url.eu-central-1.on.aws/'
-
-export async function callLambdaFunction() {
+export async function callLambdaFunction(url: string) {
   try {
-    console.log('Calling Lambda function at:', lambdaUrl);
-    const response = await fetch(lambdaUrl, {
-      method: 'POST', 
+    console.log("Calling Lambda function at:", url);
+    const response = await fetch(`${url}collect`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({}), 
+      body: JSON.stringify({}),
     });
 
     if (!response.ok) {
@@ -17,9 +14,9 @@ export async function callLambdaFunction() {
     }
 
     const data = await response.json();
-    console.log('Lambda response data:', data);
+    console.log("Lambda response data:", data);
     return data;
   } catch (error) {
-    console.error('Error calling Lambda function:', error);
+    console.error("Error calling Lambda function:", error);
   }
 }

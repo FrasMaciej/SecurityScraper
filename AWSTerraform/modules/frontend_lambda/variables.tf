@@ -4,5 +4,6 @@ variable "frontend_lambda_name" {
 }
 
 variable "security_scraper_api_gateway_url" {
-  type = string
+  description = "URL of the security scraper API gateway"
+  type        = string
 }
