@@ -17,7 +17,7 @@ resource "aws_lambda_function" "frontend_lambda" {
 
   environment {
     variables = {
-      VITE_SHODAN_LAMBDA_COLLECTOR_URL = var.shodan_collector_lambda_url
+      SECURITY_SCRAPER_API_GATEWAY_URL = var.security_scraper_api_gateway_url
     }
   } 
   

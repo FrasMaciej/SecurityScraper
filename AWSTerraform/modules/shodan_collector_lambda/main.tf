@@ -134,7 +134,3 @@ resource "aws_lambda_permission" "api_gw" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.shodan_collector_api.execution_arn}/*/*"
 }
-
-output "shodan_collector_api_url" {
-  value = "${aws_apigatewayv2_stage.stage.invoke_url}/collect"
-}

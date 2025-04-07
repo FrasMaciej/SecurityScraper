@@ -3,6 +3,6 @@ variable "frontend_lambda_name" {
   type        = string
 }
 
-variable "shodan_collector_lambda_url" {
+variable "security_scraper_api_gateway_url" {
   type = string
 }
