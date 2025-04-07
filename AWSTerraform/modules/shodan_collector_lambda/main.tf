@@ -100,7 +100,41 @@ resource "aws_iam_policy_attachment" "lambda_logs" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_lambda_function_url" "shodan_collector_lambda_url" {
-  function_name      = aws_lambda_function.shodan_collector_lambda.function_name
-  authorization_type = "NONE"
+resource "aws_apigatewayv2_api" "shodan_collector_api" {
+  name          = "shodan-collector-api"
+  protocol_type = "HTTP"
+}
+
+resource "aws_apigatewayv2_stage" "stage" {
+  api_id = aws_apigatewayv2_api.shodan_collector_api.id
+  name   = "prod"
+  auto_deploy = true
+}
+
+resource "aws_apigatewayv2_integration" "lambda_integration" {
+  api_id           = aws_apigatewayv2_api.shodan_collector_api.id
+  integration_type = "AWS_PROXY"
+
+  connection_type    = "INTERNET"
+  description        = "Lambda integration"
+  integration_method = "POST"
+  integration_uri    = aws_lambda_function.shodan_collector_lambda.invoke_arn
+}
+
+resource "aws_apigatewayv2_route" "route" {
+  api_id    = aws_apigatewayv2_api.shodan_collector_api.id
+  route_key = "POST /collect"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
+}
+
+resource "aws_lambda_permission" "api_gw" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.shodan_collector_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.shodan_collector_api.execution_arn}/*/*"
+}
+
+output "shodan_collector_api_url" {
+  value = "${aws_apigatewayv2_stage.stage.invoke_url}/collect"
 }
