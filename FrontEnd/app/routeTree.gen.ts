@@ -11,12 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LogoutImport } from './routes/logout'
 import { Route as DatabaseImport } from './routes/database'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as BillingImport } from './routes/billing'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const LogoutRoute = LogoutImport.update({
+  id: '/logout',
+  path: '/logout',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const DatabaseRoute = DatabaseImport.update({
   id: '/database',
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DatabaseImport
       parentRoute: typeof rootRoute
     }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -84,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/billing': typeof BillingRoute
   '/dashboard': typeof DashboardRoute
   '/database': typeof DatabaseRoute
+  '/logout': typeof LogoutRoute
 }
 
 export interface FileRoutesByTo {
@@ -91,6 +106,7 @@ export interface FileRoutesByTo {
   '/billing': typeof BillingRoute
   '/dashboard': typeof DashboardRoute
   '/database': typeof DatabaseRoute
+  '/logout': typeof LogoutRoute
 }
 
 export interface FileRoutesById {
@@ -99,14 +115,15 @@ export interface FileRoutesById {
   '/billing': typeof BillingRoute
   '/dashboard': typeof DashboardRoute
   '/database': typeof DatabaseRoute
+  '/logout': typeof LogoutRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/billing' | '/dashboard' | '/database'
+  fullPaths: '/' | '/billing' | '/dashboard' | '/database' | '/logout'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/billing' | '/dashboard' | '/database'
-  id: '__root__' | '/' | '/billing' | '/dashboard' | '/database'
+  to: '/' | '/billing' | '/dashboard' | '/database' | '/logout'
+  id: '__root__' | '/' | '/billing' | '/dashboard' | '/database' | '/logout'
   fileRoutesById: FileRoutesById
 }
 
@@ -115,6 +132,7 @@ export interface RootRouteChildren {
   BillingRoute: typeof BillingRoute
   DashboardRoute: typeof DashboardRoute
   DatabaseRoute: typeof DatabaseRoute
+  LogoutRoute: typeof LogoutRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -122,6 +140,7 @@ const rootRouteChildren: RootRouteChildren = {
   BillingRoute: BillingRoute,
   DashboardRoute: DashboardRoute,
   DatabaseRoute: DatabaseRoute,
+  LogoutRoute: LogoutRoute,
 }
 
 export const routeTree = rootRoute
@@ -137,7 +156,8 @@ export const routeTree = rootRoute
         "/",
         "/billing",
         "/dashboard",
-        "/database"
+        "/database",
+        "/logout"
       ]
     },
     "/": {
@@ -151,6 +171,9 @@ export const routeTree = rootRoute
     },
     "/database": {
       "filePath": "database.tsx"
+    },
+    "/logout": {
+      "filePath": "logout.tsx"
     }
   }
 }
