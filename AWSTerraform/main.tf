@@ -12,9 +12,9 @@ module "collector_reports_storage_dynamodb" {
 }
 
 module "shodan_collector_lambda" {
-  source                                = "./modules/shodan_collector_lambda"
-  collector_reports_storage_table_name  = var.collector_reports_storage_table_name
-  aws_region                            = var.region
+  source                               = "./modules/shodan_collector_lambda"
+  collector_reports_storage_table_name = var.collector_reports_storage_table_name
+  aws_region                           = var.region
 }
 
 module "frontend_lambda" {
