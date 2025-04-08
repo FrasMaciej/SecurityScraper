@@ -4,7 +4,7 @@ import os
 
 DYNAMODB_TABLE_NAME = os.environ.get("DYNAMODB_TABLE_NAME")
 
-dynamodb = boto3.resource("collector-reports-storage-table")
+dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(DYNAMODB_TABLE_NAME)
 
 
