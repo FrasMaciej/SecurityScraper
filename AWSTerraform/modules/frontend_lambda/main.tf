@@ -18,6 +18,9 @@ resource "aws_lambda_function" "frontend_lambda" {
   environment {
     variables = {
       SECURITY_SCRAPER_API_GATEWAY_URL = var.security_scraper_api_gateway_url
+      COGNITO_AUTHORITY                = var.cognito_authority
+      COGNITO_CLIENT_ID                = var.cognito_client_id
+      COGNITO_REDIRECT_URI             = var.cognito_redirect_uri
     }
   } 
   
@@ -69,15 +72,3 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
   retention_in_days = 14
 }
 
-resource "aws_lambda_function_url" "frontend_lambda" {
-  function_name      = aws_lambda_function.frontend_lambda.function_name
-  authorization_type = "NONE"
-
-  cors {
-    allow_credentials = true
-    allow_headers     = ["*"]
-    allow_methods     = ["*"]
-    allow_origins     = ["*"]
-    max_age          = 86400
-  }
-} 

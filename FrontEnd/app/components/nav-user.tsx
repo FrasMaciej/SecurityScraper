@@ -1,5 +1,5 @@
-import { IconDotsVertical, IconLogout } from "@tabler/icons-react";
-
+import { IconDotsVertical, IconLogin, IconLogout } from "@tabler/icons-react";
+import { useAuth } from "react-oidc-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -24,7 +24,16 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const auth = useAuth();
+  const isLoggedIn = auth.isAuthenticated && auth.user;
+  
+  const handleLogin = () => {
+    auth.signinRedirect(); 
+  };
 
+  const handleLogout = () => {
+    auth.signoutRedirect(); 
+  };
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -53,10 +62,17 @@ export function NavUser({
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuItem>
-              <IconLogout />
-              Log out
-            </DropdownMenuItem>
+            {isLoggedIn ? (
+              <DropdownMenuItem onClick={handleLogout}>
+                <IconLogout className="mr-2" />
+                Log out
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem onClick={handleLogin}>
+                <IconLogin className="mr-2" />
+                Log in
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

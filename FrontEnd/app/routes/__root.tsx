@@ -9,6 +9,16 @@ import {
 import css from "@/styles/index.css?url";
 import Layout from "@/layout/layout";
 
+import { AuthProvider } from "react-oidc-context";
+
+const cognitoAuthConfig = {
+  authority: "https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_YpCL3R2lN",
+  client_id: "7ksbde85h870vrn26rdrmkihno",
+  redirect_uri: "https://yxn4iyv2w4mqi6tvimwwu6n3cq0vigfx.lambda-url.eu-central-1.on.aws/",
+  response_type: "code",
+  scope: "email openid profile",
+  };
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -40,11 +50,13 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <RootDocument>
-      <Layout>
-        <Outlet />
-      </Layout>
-    </RootDocument>
+    <AuthProvider {...cognitoAuthConfig}>
+      <RootDocument>
+        <Layout>
+          <Outlet />
+        </Layout>
+      </RootDocument>
+    </AuthProvider>
   );
 }
 

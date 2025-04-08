@@ -23,8 +23,27 @@ module "get_reports_storage_from_dynamodb_lambda" {
   aws_region                           = var.region
 }
 
+module "frontend_lambda_link" {
+  source               = "./modules/frontend_lambda_link"
+  frontend_lambda_name = "security-scraper-frontend"
+}
+
+module "cognito_user_pool_for_frontend" {
+  source                = "./modules/cognito_user_pool_for_frontend"
+  pool_name             = "frontend_user_pool"
+  cognito_domain_prefix = "frontend-user-pool-domain"
+  callback_url          = module.frontend_lambda_link.frontend_lambda_url
+  logout_url            = module.frontend_lambda_link.frontend_lambda_url
+  aws_region            = "us-east-1"
+}
+
 module "frontend_lambda" {
   source                           = "./modules/frontend_lambda"
-  frontend_lambda_name             = "security-scraper-frontend"
   security_scraper_api_gateway_url = module.shodan_collector_lambda.security_scraper_api_gateway_url
+  cognito_authority                = module.cognito_user_pool_for_frontend.cognito_authority
+  cognito_client_id                = module.cognito_user_pool_for_frontend.client_id
+  cognito_redirect_uri             = module.frontend_lambda_link.frontend_lambda_url
+  frontend_lambda_url              = module.frontend_lambda_link.frontend_lambda_url
 }
+
+

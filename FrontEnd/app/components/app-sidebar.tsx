@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useAuth } from "react-oidc-context";
 import {
   IconDashboard,
   IconShieldLock,
@@ -19,10 +20,13 @@ import {
 } from "@/components/ui/sidebar";
 import { Link } from "@tanstack/react-router";
 
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const auth = useAuth();
+const isLoggedIn = auth.isAuthenticated && auth.user;
 const data = {
   user: {
-    name: "Name Surname",
-    email: "loggeduser@example.com",
+    name: isLoggedIn ? auth.user?.profile?.name ?? "No Name" : "Anonymous",
+    email: isLoggedIn ? auth.user?.profile?.email ?? "" : "",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
@@ -44,7 +48,7 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
