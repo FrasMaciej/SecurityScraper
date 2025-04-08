@@ -17,6 +17,12 @@ module "shodan_collector_lambda" {
   aws_region                           = var.region
 }
 
+module "get_reports_storage_from_dynamodb_lambda" {
+  source                               = "./modules/get_reports_storage_from_dynamodb_lambda"
+  collector_reports_storage_table_name = var.collector_reports_storage_table_name
+  aws_region                           = var.region
+}
+
 module "frontend_lambda" {
   source                           = "./modules/frontend_lambda"
   frontend_lambda_name             = "security-scraper-frontend"
