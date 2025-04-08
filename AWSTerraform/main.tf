@@ -21,8 +21,6 @@ module "get_reports_storage_from_dynamodb_lambda" {
   source                               = "./modules/get_reports_storage_from_dynamodb_lambda"
   collector_reports_storage_table_name = var.collector_reports_storage_table_name
   aws_region                           = var.region
-  lambda_role_arn                      = aws_iam_role.lambda_role.arn
-  aws_account_id                       = data.aws_caller_identity.current.account_id
 }
 
 module "frontend_lambda" {

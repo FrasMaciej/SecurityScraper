@@ -40,6 +40,25 @@ resource "aws_iam_policy" "dynamodb_read_access" {
   })
 }
 
+resource "aws_iam_role" "lambda_role" {
+  name = "get_reports_storage_lambda_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role_policy_attachment" "attach_dynamodb_read_policy" {
   policy_arn = aws_iam_policy.dynamodb_read_access.arn
   role       = aws_iam_role.lambda_role.name
