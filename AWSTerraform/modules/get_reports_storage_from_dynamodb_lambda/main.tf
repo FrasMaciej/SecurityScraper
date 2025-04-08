@@ -9,7 +9,7 @@ resource "aws_lambda_function" "get_reports_storage_lambda" {
   runtime          = "python3.13"
   handler          = "get_reports_storage_from_dynamodb_lambda.lambda_handler"
   filename         = data.archive_file.get_reports_storage_lambda_package.output_path
-  role             = aws_iam_role.lambda_role.arn
+  role             = var.lambda_role_arn
   source_code_hash = data.archive_file.get_reports_storage_lambda_package.output_base64sha256
   timeout          = 30
 
@@ -34,7 +34,7 @@ resource "aws_iam_policy" "dynamodb_read_access" {
           "dynamodb:Query",
           "dynamodb:GetItem"
         ],
-        Resource = "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.collector_reports_storage_table_name}"
+        Resource = "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.collector_reports_storage_table_name}"
       }
     ]
   })
