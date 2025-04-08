@@ -35,7 +35,6 @@ resource "aws_iam_policy" "dynamodb_policy" {
     "Statement": [
         {
             "Effect": "Deny",
-            "Principal": "*",
             "Action": "dynamodb:*",
             "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.collector_reports_storage_table_name}",
             "Condition": {
