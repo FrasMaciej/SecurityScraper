@@ -4,12 +4,14 @@ data "archive_file" "get_reports_storage_lambda_package" {
   output_path = "../Api/get_reports_storage_from_dynamodb_lambda/get_reports_storage_lambda.zip"
 }
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_lambda_function" "get_reports_storage_lambda" {
   function_name    = "get_reports_storage_lambda"
   runtime          = "python3.13"
   handler          = "get_reports_storage_from_dynamodb_lambda.lambda_handler"
   filename         = data.archive_file.get_reports_storage_lambda_package.output_path
-  role             = var.lambda_role_arn
+  role             = aws_iam_role.lambda_role.arn
   source_code_hash = data.archive_file.get_reports_storage_lambda_package.output_base64sha256
   timeout          = 30
 
@@ -34,7 +36,7 @@ resource "aws_iam_policy" "dynamodb_read_access" {
           "dynamodb:Query",
           "dynamodb:GetItem"
         ],
-        Resource = "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.collector_reports_storage_table_name}"
+        Resource = "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.collector_reports_storage_table_name}"
       }
     ]
   })
@@ -57,8 +59,6 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
-data "aws_caller_identity" "current" {}
-
 resource "aws_iam_role_policy_attachment" "attach_dynamodb_read_policy" {
   policy_arn = aws_iam_policy.dynamodb_read_access.arn
   role       = aws_iam_role.lambda_role.name
@@ -69,7 +69,7 @@ resource "aws_apigatewayv2_api" "get_reports_storage_api" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = ["*"]
+    allow_origins = ["*"]  # Replace with specific origins for production
     allow_methods = ["GET", "OPTIONS"]
     allow_headers = ["*"]
   }
