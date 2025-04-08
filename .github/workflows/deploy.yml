@@ -1,4 +1,4 @@
-name: Deploy AWS Lambda and S3
+name: Deploy Security Scraper AWS Infrastructure
 
 on:
   push:
