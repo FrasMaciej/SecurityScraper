@@ -4,11 +4,6 @@ module "parameter_store" {
   source = "./modules/parameter_store"
 }
 
-module "collector_reports_storage_s3" {
-  source                                = "./modules/collector_reports_storage_s3"
-  collector_reports_storage_bucket_name = var.collector_reports_storage_bucket_name
-}
-
 module "collector_reports_storage_dynamodb" {
   source                               = "./modules/collector_reports_storage_dynamodb"
   collector_reports_storage_table_name = var.collector_reports_storage_table_name

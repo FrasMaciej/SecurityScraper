@@ -70,25 +70,6 @@ resource "aws_lambda_function" "shodan_collector_lambda" {
   ]
 }
 
-resource "aws_iam_policy" "s3_write_access" {
-  name        = "S3WriteAccessPolicy"
-  description = "Allows Lambda to write objects to S3 bucket"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:PutObject",
-          "s3:PutObjectAcl"
-        ]
-        Resource = "arn:aws:s3:::collector-reports-storage-s3/*"
-      }
-    ]
-  })
-}
-
 resource "aws_iam_policy" "dynamodb_write_access" {
   name        = "DynamoDBWriteAccessPolicy"
   description = "Allows Lambda to write data to the DynamoDB table"
@@ -111,11 +92,6 @@ resource "aws_iam_policy" "dynamodb_write_access" {
 
 resource "aws_iam_role_policy_attachment" "attach_dynamodb_policy" {
   policy_arn = aws_iam_policy.dynamodb_write_access.arn
-  role       = aws_iam_role.lambda_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "attach_s3_policy" {
-  policy_arn = aws_iam_policy.s3_write_access.arn
   role       = aws_iam_role.lambda_role.name
 }
 
