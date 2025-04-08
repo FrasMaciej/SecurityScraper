@@ -10,7 +10,7 @@ module "collector_reports_storage_s3" {
 }
 
 module "collector_reports_storage_dynamodb" {
-  source                                = "./modules/collector_reports_storage_dynamodb"
+  source                               = "./modules/collector_reports_storage_dynamodb"
   collector_reports_storage_table_name = var.collector_reports_storage_table_name
   aws_region                           = var.region
   aws_account_id                       = data.aws_caller_identity.current.account_id
