@@ -89,6 +89,31 @@ resource "aws_iam_policy" "s3_write_access" {
   })
 }
 
+resource "aws_iam_policy" "dynamodb_write_access" {
+  name        = "DynamoDBWriteAccessPolicy"
+  description = "Allows Lambda to write data to the DynamoDB table"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:GetItem"
+        ],
+        Resource = "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.collector_reports_storage_table_name}"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_dynamodb_policy" {
+  policy_arn = aws_iam_policy.dynamodb_write_access.arn
+  role       = aws_iam_role.lambda_role.name
+}
+
 resource "aws_iam_role_policy_attachment" "attach_s3_policy" {
   policy_arn = aws_iam_policy.s3_write_access.arn
   role       = aws_iam_role.lambda_role.name

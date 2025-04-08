@@ -8,17 +8,17 @@ BASE_SHODAN_URL = "https://api.shodan.io"
 API_KEY_PARAM_NAME = "/securityscraper/shodan/apikey"
 DEFAULT_SEARCH_QUERY = ""
 DEFAULT_URL_PATH = "/api-info"
-S3_BUCKET_NAME = "collector-reports-storage-s3"
+DYNAMODB_TABLE_NAME = "collector-reports-storage-table"
 
 
 def lambda_handler(event, context):
     """
     AWS Lambda entry point.
     - Expects `query` and `url_path` as query string parameters from API Gateway.
-    - Calls `fetch_shodan_data` and saves the result to S3.
+    - Calls `fetch_shodan_data` and saves the result to DynamoDB.
     """
     ssm = boto3.client("ssm")
-    s3 = boto3.client("s3")
+    dynamodb = boto3.client("dynamodb")
 
     try:
         shodan_api_key = get_shodan_api_key(API_KEY_PARAM_NAME, ssm)
@@ -40,28 +40,27 @@ def lambda_handler(event, context):
     shodan_data = fetch_shodan_data(search_query, url_path, shodan_api_key)
 
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    s3_key = f"shodan_results/{timestamp}.json"
     try:
-        s3.put_object(
-            Bucket=S3_BUCKET_NAME,
-            Key=s3_key,
-            Body=json.dumps(shodan_data, indent=4),
-            ContentType="application/json",
+        dynamodb.put_item(
+            TableName=DYNAMODB_TABLE_NAME,
+            Item={
+                "PrimaryKey": {"S": timestamp},
+                "Data": {"S": json.dumps(shodan_data, indent=4)},
+            },
         )
     except Exception as e:
         return {
             "statusCode": 500,
-            "body": json.dumps({"error": f"Failed to save data to S3: {str(e)}"}),
+            "body": json.dumps({"error": f"Failed to save data to DynamoDB: {str(e)}"}),
         }
 
     return {
         "statusCode": 200,
         "headers": {
             "Content-Type": "application/json",
-            # Allow all domains (or specify your domain)
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Content-Type",  # Allow the Content-Type header
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",  # Allow necessary HTTP methods
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
         "body": json.dumps(shodan_data, indent=4),
     }
