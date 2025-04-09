@@ -64,10 +64,6 @@ resource "aws_iam_role_policy_attachment" "attach_dynamodb_read_policy" {
   role       = aws_iam_role.lambda_role.name
 }
 
-data "aws_apigatewayv2_api" "shodan_collector_api" {
-  name = "shodan-collector-api"
-}
-
 resource "aws_apigatewayv2_integration" "lambda_integration" {
   api_id           = var.shodan_collector_api_id
   integration_type = "AWS_PROXY"
