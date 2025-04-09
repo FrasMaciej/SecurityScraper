@@ -72,17 +72,18 @@ function RouteComponent() {
       console.log(data);
     },
     onSubmit: async ({ value }) => {
-      console.log({ value });
-
-      const baseUrl = "https://api.shodan.io/shodan/host/search";
-      const params = value.filters
+      const query = value.filters
         .map((filter) => `${filter.key}:${filter.value}`)
         .join(",");
-      const url = `${baseUrl}?query=${params}&page=${value.page}`;
+      const url_path = "/shodan/host/search";
       try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
+        const json = await callLambdaFunction(url, {
+          queryStringParameters: {
+            url_path: url_path,
+            query: query,
+          },
+        });
+        setJsonData(json);
       } catch (error) {
         console.error(error);
       }

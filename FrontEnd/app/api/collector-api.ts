@@ -1,4 +1,4 @@
-export async function callLambdaFunction(url: string) {
+export async function callLambdaFunction(url: string, body: any) {
   try {
     console.log("Calling Lambda function at:", url);
     const response = await fetch(`${url}/collect`, {
@@ -6,7 +6,7 @@ export async function callLambdaFunction(url: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
