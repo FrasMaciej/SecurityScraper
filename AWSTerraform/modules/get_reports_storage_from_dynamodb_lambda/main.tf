@@ -69,13 +69,13 @@ data "aws_apigatewayv2_api" "shodan_collector_api" {
 }
 
 resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id           = data.aws_apigatewayv2_api.shodan_collector_api.id
+  api_id           = var.shodan_collector_api_id
   integration_type = "AWS_PROXY"
   integration_uri  = aws_lambda_function.get_reports_storage_lambda.invoke_arn
 }
 
 resource "aws_apigatewayv2_route" "get_reports_route" {
-  api_id    = data.aws_apigatewayv2_api.shodan_collector_api.id
+  api_id    = var.shodan_collector_api_id
   route_key = "GET /get-reports"
   target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
