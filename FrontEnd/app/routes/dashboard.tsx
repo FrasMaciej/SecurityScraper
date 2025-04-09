@@ -73,34 +73,19 @@ function RouteComponent() {
     },
     onSubmit: async ({ value }) => {
       const query = value.filters
-        .map((filter) => `${filter.key}:${filter.value}`)
-        .join(",");
-      const url_path = "/shodan/host/search";
+        .map((filter) => `${filter.key}=${filter.value}`)
+        .join("&");
       try {
-        const json = await callLambdaFunction(url, {
-          queryStringParameters: {
-            url_path: url_path,
-            query: query,
-          },
-        });
+        const json = await callLambdaFunction(
+          url,
+          query + `&page=${value.page}`
+        );
         setJsonData(json);
       } catch (error) {
         console.error(error);
       }
     },
   });
-
-  async function getDataFromShodanAPI() {
-    setSendRequestButtonActive(false);
-    try {
-      const json = await callLambdaFunction(url);
-      setJsonData(json);
-    } catch (error) {
-      console.error("Error calling Lambda function:", error);
-    } finally {
-      setSendRequestButtonActive(true);
-    }
-  }
 
   return (
     <div className="mx-4 grid grid-cols-2 gap-4 min-h-1/2">

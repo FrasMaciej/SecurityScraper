@@ -1,12 +1,11 @@
-export async function callLambdaFunction(url: string, body: any) {
+export async function callLambdaFunction(url: string, query: string) {
   try {
     console.log("Calling Lambda function at:", url);
-    const response = await fetch(`${url}/collect`, {
+    const response = await fetch(`${url}/collect?${query}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
