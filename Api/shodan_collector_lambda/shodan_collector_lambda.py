@@ -14,7 +14,7 @@ DYNAMODB_TABLE_NAME = "collector-reports-storage-table"
 def lambda_handler(event, context):
     """
     AWS Lambda entry point.
-    - Expects `query` and `url_path` in the JSON body from API Gateway.
+    - Expects `query` and `url_path` as query string parameters from API Gateway.
     - Calls `fetch_shodan_data` and saves the result to DynamoDB.
     """
     ssm = boto3.client("ssm")
@@ -27,16 +27,9 @@ def lambda_handler(event, context):
     except RuntimeError as e:
         return {"statusCode": 500, "body": json.dumps({"error": str(e)})}
 
-    try:
-        body = json.loads(event.get("body", "{}"))
-    except json.JSONDecodeError:
-        return {
-            "statusCode": 400,
-            "body": json.dumps({"error": "Invalid JSON body"}),
-        }
-
-    search_query = body.get("query", DEFAULT_SEARCH_QUERY)
-    url_path = body.get("url_path", DEFAULT_URL_PATH)
+    query_params = event.get("queryStringParameters", {}) or {}
+    search_query = query_params.get("query", DEFAULT_SEARCH_QUERY)
+    url_path = query_params.get("url_path", DEFAULT_URL_PATH)
 
     if not isinstance(search_query, str) or not isinstance(url_path, str):
         return {
