@@ -10,3 +10,8 @@ variable "shodan_collector_api_id" {
   description = "The ID of the existing API Gateway for shodan-collector"
   type        = string
 }
+
+variable "shodan_collector_api_execution_arn" {
+  description = "The ID of the existing API Gateway for shodan-collector"
+  type        = string
+}

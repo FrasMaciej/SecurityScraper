@@ -22,6 +22,7 @@ module "get_reports_storage_from_dynamodb_lambda" {
   collector_reports_storage_table_name = var.collector_reports_storage_table_name
   aws_region                           = var.region
   shodan_collector_api_id              = module.shodan_collector_lambda.shodan_collector_api_id
+  shodan_collector_api_execution_arn   = module.shodan_collector_lambda.shodan_collector_api_execution_arn
 }
 
 module "frontend_lambda" {

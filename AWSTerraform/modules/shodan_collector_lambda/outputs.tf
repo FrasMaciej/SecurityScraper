@@ -9,3 +9,8 @@ output "security_scraper_api_gateway_url" {
 output "shodan_collector_api_id" {
   value = aws_apigatewayv2_api.shodan_collector_api.id
 }
+
+output "shodan_collector_api_execution_arn" {
+  value = aws_apigatewayv2_api.shodan_collector_api.execution_arn
+}
+
