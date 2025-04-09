@@ -106,7 +106,7 @@ resource "aws_apigatewayv2_api" "shodan_collector_api" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = ["*"]  // You might want to restrict this to your frontend domain
+    allow_origins = ["*"]  
     allow_methods = ["POST", "OPTIONS"]
     allow_headers = ["*"]
     max_age      = 300

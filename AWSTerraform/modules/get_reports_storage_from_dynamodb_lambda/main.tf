@@ -67,7 +67,17 @@ resource "aws_iam_role_policy_attachment" "attach_dynamodb_read_policy" {
 resource "aws_apigatewayv2_integration" "lambda_integration" {
   api_id           = var.shodan_collector_api_id
   integration_type = "AWS_PROXY"
+
+  connection_type    = "INTERNET"
+  description        = "Lambda integration"
   integration_uri  = aws_lambda_function.get_reports_storage_lambda.invoke_arn
+}
+
+
+resource "aws_apigatewayv2_route" "options_route" {
+  api_id    = var.shodan_collector_api_id
+  route_key = "OPTIONS /get-reports"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "get_reports_route" {
