@@ -107,7 +107,7 @@ resource "aws_apigatewayv2_api" "shodan_collector_api" {
 
   cors_configuration {
     allow_origins = ["*"]  
-    allow_methods = ["POST", "OPTIONS"]
+    allow_methods = ["POST", "OPTIONS", "GET"]
     allow_headers = ["*"]
     max_age      = 300
   }
