@@ -64,31 +64,18 @@ resource "aws_iam_role_policy_attachment" "attach_dynamodb_read_policy" {
   role       = aws_iam_role.lambda_role.name
 }
 
-resource "aws_apigatewayv2_api" "get_reports_storage_api" {
-  name          = "get-reports-storage-api"
-  protocol_type = "HTTP"
-
-  cors_configuration {
-    allow_origins = ["*"]  # Replace with specific origins for production
-    allow_methods = ["GET", "OPTIONS"]
-    allow_headers = ["*"]
-  }
+data "aws_apigatewayv2_api" "shodan_collector_api" {
+  name = "shodan-collector-api"
 }
 
 resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id           = aws_apigatewayv2_api.get_reports_storage_api.id
+  api_id           = data.aws_apigatewayv2_api.shodan_collector_api.id
   integration_type = "AWS_PROXY"
   integration_uri  = aws_lambda_function.get_reports_storage_lambda.invoke_arn
 }
 
-resource "aws_apigatewayv2_route" "route" {
-  api_id    = aws_apigatewayv2_api.get_reports_storage_api.id
+resource "aws_apigatewayv2_route" "get_reports_route" {
+  api_id    = data.aws_apigatewayv2_api.shodan_collector_api.id
   route_key = "GET /get-reports"
   target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
-}
-
-resource "aws_apigatewayv2_stage" "stage" {
-  api_id      = aws_apigatewayv2_api.get_reports_storage_api.id
-  name        = "prod"
-  auto_deploy = true
 }
