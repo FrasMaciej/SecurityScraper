@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  IconDashboard,
-  IconShieldLock,
-  IconListDetails,
-  IconCoin,
-} from "@tabler/icons-react";
+import { LayoutDashboard, Shield, List, Coins } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -29,17 +24,17 @@ const data = {
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: IconDashboard,
+      icon: LayoutDashboard,
     },
     {
       title: "Database",
       url: "/database",
-      icon: IconListDetails,
+      icon: List,
     },
     {
       title: "Billing",
       url: "/billing",
-      icon: IconCoin,
+      icon: Coins,
     },
   ],
 };
@@ -55,7 +50,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Link to="/">
-                <IconShieldLock className="!size-5" />
+                <Shield className="!size-5" />
                 <span className="text-base font-semibold">
                   Security Scraper
                 </span>

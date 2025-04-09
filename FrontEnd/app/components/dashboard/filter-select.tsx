@@ -159,7 +159,7 @@ export default function FilterSelect({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-48 justify-start capitalize rounded-l-md rounded-r-none"
+          className="w-48 justify-start capitalize rounded-l-md rounded-r-none bg-transparent border-input"
         >
           <span className="truncate">
             {value
