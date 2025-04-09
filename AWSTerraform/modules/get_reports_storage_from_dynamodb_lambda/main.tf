@@ -70,7 +70,7 @@ resource "aws_apigatewayv2_integration" "lambda_integration" {
 
   connection_type    = "INTERNET"
   description        = "Lambda integration"
-  integration_method = "GET"
+  integration_method = "POST"
   integration_uri  = aws_lambda_function.get_reports_storage_lambda.invoke_arn
 }
 
